@@ -16,7 +16,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.urlencoded({ extended: true }));
 
-
 mongoose.connect(`mongodb+srv://ragav555666:Ragav_dealsdray@cluster0.netkbpj.mongodb.net/Login-data?retryWrites=true&w=majority&appName=Cluster0`, {
     useNewUrlParser: true,
     useUnifiedTopology: true
