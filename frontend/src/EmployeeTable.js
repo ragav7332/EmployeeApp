@@ -7,15 +7,26 @@ import { Button } from '@mui/material';
 const EmployeeTable = () => {
     const [employees, setEmployees] = useState([]);
   const navigate = useNavigate();
-    useEffect(() => {
-        axios.get('http://localhost:8000/getemployees')         //get all employee detail from database through backend
-            .then(response => {
-                setEmployees(response.data);
-            })
-            .catch(error => {
-                console.error(error);
-            });
-    }, []);
+
+const token = localStorage.getItem('token');
+
+useEffect(() => {
+    if (!token) {
+        // Redirect to login page if token is not present
+        navigate('/login');
+        return;
+    }
+
+    axios.get('http://localhost:8000/getemployees', { headers: { Authorization: `Bearer ${token}` } })
+        .then(response => {
+            setEmployees(response.data);
+        })
+        .catch(error => {
+            console.error(error);
+            // Handle error (e.g., show error message)
+        });
+}, [token]);
+
 
     const handleEdit = async (_id) => {
         try {

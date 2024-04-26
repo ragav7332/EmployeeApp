@@ -8,6 +8,7 @@ import { AuthProvider } from './AuthContext';
 import EmployeeTable from './EmployeeTable';
 import EditEmployee from './EditEmployee';
 
+
 const App = () => {
     return (
         <Router>
@@ -27,4 +28,5 @@ const App = () => {
 };
 
 export default App;
+
 

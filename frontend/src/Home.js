@@ -1,6 +1,16 @@
-import React from 'react';
+
+import React, { useEffect } from 'react';
 import "bootstrap/dist/css/bootstrap.min.css"
+import { useNavigate } from 'react-router-dom';
 const Home = () => {
+    const navigate = useNavigate();
+    const token = localStorage.getItem('token');
+    useEffect(() => {
+        if (!token) {
+            navigate('/login');
+        }
+    }, [token, navigate]);
+  
     return (
         <div className='container justify-content-center mt-3'>
             <h1>Welcome to the Dashboard Home Page</h1>

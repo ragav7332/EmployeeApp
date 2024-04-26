@@ -1,71 +1,5 @@
-// import React, { useState } from 'react';
-// import axios from 'axios';
-// import { Link, useNavigate } from 'react-router-dom';
-// import "bootstrap/dist/css/bootstrap.min.css"
 
-// const EmployeeList = () => {
-//     const [name, setName] = useState('');
-//     const [email, setEmail] = useState('');
-//     const [mobileNo, setMobileNo] = useState('');
-//     const [designation, setDesignation] = useState('');
-//     const [gender, setGender] = useState('');
-//     const [course, setCourse] = useState('');
-//     const [imageUpload, setImageUpload] = useState('');
-
-    
-//     const navigate = useNavigate();
-//     const handleSubmit = async (e) => {
-//         e.preventDefault();
-
-//         try {
-//             await axios.post('http://localhost:8000/addemployees', {
-//                 name,
-//                 email,
-//                 mobileNo,
-//                 designation,
-//                 gender,
-//                 course,
-//                 imageUpload
-//             });
-
-//             navigate('/getemployee'); // Navigate to EmployeeTable page
-//         } catch (error) {
-//             console.error(error);
-//         }
-//     };
-
-//     return (
-//         <div class="top-container text-align-center mx-3">
-//             <h1>Add Employee</h1>
-//             <form onSubmit={(e) => handleSubmit(e)}>
-//                 <label>Name:</label>
-//                 <input type="text" value={name} onChange={(e) => setName(e.target.value)} required /><br />
-//                 <label>Email:</label>
-//                 <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required /><br />
-//                 <label>Mobile No:</label>
-//                 <input type="text" value={mobileNo} onChange={(e) => setMobileNo(e.target.value)} required /><br />
-//                 <label>Designation:</label>
-//                 <input type="text" value={designation} onChange={(e) => setDesignation(e.target.value)} required /><br />
-//                 <label>Gender:</label>
-//                 <select value={gender} onChange={(e) => setGender(e.target.value)} required>
-//                     <option value="">Select Gender</option>
-//                     <option value="Male">Male</option>
-//                     <option value="Female">Female</option>
-//                     <option value="Other">Other</option>
-//                 </select><br />
-//                 <label>Course:</label>
-//                 <input type="text" value={course} onChange={(e) => setCourse(e.target.value)} required /><br />
-//                 <label>Image URL:</label>
-//                 <input type="text" value={imageUpload} onChange={(e) => setImageUpload(e.target.value)} required /><br />
-//                 <button type="submit">Add Employee</button>
-                
-//             </form>
-//         </div>
-//     );
-// };
-
-// export default EmployeeList;
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -82,11 +16,13 @@ const EmployeeList = () => {
     const [imageUpload, setImageUpload] = useState('');
 
     const navigate = useNavigate();
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+    const token = localStorage.getItem('token');
 
+    const handleSubmit =  (e) => {
+        e.preventDefault();
+       
         try {
-            await axios.post('http://localhost:8000/addemployees', { 
+            axios.post('http://localhost:8000/addemployees', { 
                 name,
                 email,
                 mobileNo,
@@ -94,6 +30,8 @@ const EmployeeList = () => {
                 gender,
                 course,
                 imageUpload
+            }, {
+                headers: { Authorization: `Bearer ${token}` }
             });
 
             navigate('/getemployee'); // Navigate to EmployeeTable page
@@ -101,6 +39,13 @@ const EmployeeList = () => {
             console.error(error);
         }
     };
+
+    useEffect(() => {
+        if (!token) {
+          window.alert("Kindly Login")
+          navigate('/login')
+        }
+    }, [token, navigate]);
 
     return (
         <div className="bottom-container rounded">
@@ -201,4 +146,3 @@ const EmployeeList = () => {
 export default EmployeeList;
 
 //with use of bootdstrap and MUI for Styling purposes with external style as style.css
-
